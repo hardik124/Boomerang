@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Boomerang</string>
     <string name="gSignKey"> 853032541138-k1qhu0jeno7i9edn5d2umj8mm8fmllh1.apps.googleusercontent.com </string>
+    <string name="facebook_app_id">1064472107030935</string>
+    <string name="fb_login_protocol_scheme">fb1064472107030935</string>
     <string name="working">Loading...</string>
 </resources>
