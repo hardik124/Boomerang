@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "853032541138",
+    "project_id": "boomerang-168015"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853032541138:android:631ee09a593bd621",
+        "android_client_info": {
+          "package_name": "com.boomerang.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853032541138-6p8rkdiasabaa4jdh4t9e1l5dbrmj2bj.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "853032541138-k1qhu0jeno7i9edn5d2umj8mm8fmllh1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.boomerang.app",
+            "certificate_hash": "ed79b659cbab4199333df96fb7472d059350adc1"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvhoWtkmTx-Y8g6BfAQa8niJtGH1PMB9w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
