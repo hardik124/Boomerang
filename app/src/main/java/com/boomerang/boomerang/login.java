@@ -5,7 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.boomerang.boomerang.base.BaseActivity;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -18,13 +23,14 @@ public class login extends BaseActivity {
     private static final int GOOGLE_SIGN_IN = 0;
     private SignInButton mGoogleSignIn;
     private GoogleApiClient mGoogleApiClient;
+    private LoginButton mFBlogin;
+    private CallbackManager mFbCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         //TODO : Add this in Application class
-
-        super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_login);
@@ -34,6 +40,26 @@ public class login extends BaseActivity {
             @Override
             public void onClick(View v) {
                 signInWithGoogle();
+
+            }
+        });
+
+        mFbCallback = CallbackManager.Factory.create();
+
+        mFBlogin = (LoginButton) findViewById(R.id.facebook_sign_in_btn);
+        mFBlogin.registerCallback(mFbCallback, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                //TODO: Use the Profile class to get information about the current user.
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
 
             }
         });
@@ -72,8 +98,7 @@ public class login extends BaseActivity {
                 showToast("Signed in");
             }
         } else {
-            // Handle other values for requestCode
-            showToast("ERROR");
+            mFbCallback.onActivityResult(requestCode, resultCode, data);
         }
 
     }
