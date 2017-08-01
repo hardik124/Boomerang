@@ -8,6 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="calendarText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="calendarHeaderText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/cardview_light_background</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="login" parent="AppTheme">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -23,7 +33,7 @@
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/textColour</item>
+        <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

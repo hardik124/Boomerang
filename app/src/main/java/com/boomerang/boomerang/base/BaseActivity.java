@@ -6,18 +6,22 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boomerang.boomerang.R;
 import com.boomerang.boomerang.view.BaseActivityCallback;
+
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseActivityCallback {
 
@@ -38,13 +42,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             int colorPrimary = ContextCompat.getColor(this, R.color.colorPrimary);
             setColour(colorPrimary);
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-
+        isNetworkAvailable(getApplicationContext());
 
     }
 
@@ -69,6 +71,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
                         }
                     });
         }
+    }
+
+    public void hideToolbar() {
+        if (getToolbar() != null)
+            getToolbar().setVisibility(View.GONE);
     }
 
     protected void showBackButton() {
@@ -114,7 +121,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     public void showSnack(String message, int length) {
-        showSnack(message, length, getCurrentFocus());
+        try {
+            showSnack(message, length, findViewById(R.id.CoordinatorLayout));
+        } catch (Exception e) {
+            showSnack(message, length, getWindow().getDecorView());
+        }
     }
 
     public void showSnack(String message, int length, View view) {
@@ -122,10 +133,18 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             snack = Snackbar.make(view, message, length);
             TextView snackBarText = (TextView) snack.getView().findViewById(R.id.snackbar_text);
             snackBarText.setTextColor(Color.WHITE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                snackBarText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            }
             snack.getView().setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.snackBar));
+
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+                    snack.getView().getLayoutParams();
+            snack.getView().setLayoutParams(params);
+
             snack.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.d("Snack Error", e.getMessage());
         }
     }
 
@@ -192,5 +211,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     }
 
+    public void makeActivityFullScreen() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
 
 }

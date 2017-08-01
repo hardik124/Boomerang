@@ -29,11 +29,18 @@ public class login extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        makeActivityFullScreen();
         //TODO : Add this in Application class
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_login);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
         mGoogleSignIn = (SignInButton) findViewById(R.id.google_sign_in_btn);
         mGoogleSignIn.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +58,8 @@ public class login extends BaseActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 //TODO: Use the Profile class to get information about the current user.
+
+                openHome();
             }
 
             @Override
@@ -69,12 +78,7 @@ public class login extends BaseActivity {
         if (mGoogleApiClient != null) {
             mGoogleApiClient.disconnect();
         }
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+
 
         final Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
@@ -86,21 +90,27 @@ public class login extends BaseActivity {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == GOOGLE_SIGN_IN) {
             result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
+            showToast(result.getStatus().getStatusMessage());
+            showToast(result.getStatus().toString());
             if (result.isSuccess()) {
-                final GoogleApiClient client = mGoogleApiClient;
                 showSnack("Signed in");
+                openHome();
                 GoogleSignInAccount account = result.getSignInAccount();
                 showToast(account.getDisplayName());
                 //handleSignInResult(...)
             } else {
                 //handleSignInResult(...);
-                showToast("Signed in");
+                showToast("Signed in failed");
             }
         } else {
             mFbCallback.onActivityResult(requestCode, resultCode, data);
         }
 
+    }
+
+    private void openHome() {
+        Intent intent = new Intent(this, Home.class);
+        startActivity(intent);
     }
 
 }

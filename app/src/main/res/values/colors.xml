@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4668A5</color>
-    <color name="colorPrimaryDark">#154499</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#bf4668a5</color>
+    <color name="colorPrimaryDark">#023186</color>
+    <color name="colorAccent">#ffc400</color>
     <color name="textColour">#6b6a6a</color>
+    <color name="background">#5d8e8e8e</color>
     <color name="white">#ffffff</color>
     <color name="snackBar">#FF353434</color>
 </resources>
